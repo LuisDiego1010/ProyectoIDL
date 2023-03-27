@@ -31,26 +31,42 @@ def openNewWindow_Conversion():
     label2.image = bg2
     label2.place(x = 0, y = 0)
     #Solcitar al usuario el número en hexadecimal
-    lbl_hex = tk.Label (canvas_principal2,text="Introduce un número hexadecimal de 3 dígitos: ", font=("Adobe Gothic Std B",12),background="#27363B",foreground="white" ).place(x=30,y=150)
-    ent_hex= tk.Entry(canvas_principal2,font=("Adobe Gothic Std B",12),width=25)
-    ent_hex.place(x=355,y=151)
+    lbl_hex1 = tk.Label (canvas_principal2,text="Introduce un número hexadecimal de 3 dígitos: ", font=("Adobe Gothic Std B",12),background="#27363B",foreground="white" ).place(x=30,y=150)
+    ent_hex1= tk.Entry(canvas_principal2,font=("Adobe Gothic Std B",12),width=25)
+    ent_hex1.place(x=355,y=151)
     def get_value():
-        hex=ent_hex.get()
+        hex=ent_hex1.get()
         print(hex)
     convert_btn= tk.Button(canvas_principal2, text="Convertir",command= get_value).place(x=590,y=150)
+    #Tabla
+    #******************Creación de tabla para mostrar datos***********************
+    ent_hex = tk.Entry(canvas_principal2, width=12, justify="center")
+    ent_hex.insert(0, "Hexadecimal")
+    ent_octal = tk.Entry(canvas_principal2, width=12, justify="center")
+    ent_octal.insert(0, "Octal")
+    ent_decimal = tk.Entry(canvas_principal2, width=12, justify="center")
+    ent_decimal.insert(0, "Decimal")
+    ent_binario = tk.Entry(canvas_principal2, width=12, justify="center")
+    ent_binario.insert(0, "Binario")
+    hex_value = tk.Entry(canvas_principal2, width=12, justify="center")
+    oct_value = tk.Entry(canvas_principal2, width=12, justify="center")
+    dec_value = tk.Entry(canvas_principal2, width=12, justify="center")
+    bin_value = tk.Entry(canvas_principal2, width=12, justify="center")
+    ent__list = [ent_hex, ent_octal, ent_decimal, ent_binario, hex_value, oct_value, dec_value, bin_value]
 
-    #Mostrar los resultados en forma de tabla
-    hexadecimal_lbl = tk.Label(canvas_principal2, text="Hexadecimal",font=("Adobe Gothic Std B",10),background="#27363B",foreground="white" )
-    octal_lbl = tk.Label(canvas_principal2, text="Octal",font=("Adobe Gothic Std B",10),background="#27363B",foreground="white" )
-    decimal_lbl = tk.Label(canvas_principal2, text="Decimal",font=("Adobe Gothic Std B",10),background="#27363B",foreground="white" )
-    binario_lbl = tk.Label(canvas_principal2, text="Binario",font=("Adobe Gothic Std B",10),background="#27363B",foreground="white" )
+    # Ubicamos los ent_ utilizando place
+    ent_hex.place(x=30, y=200)
+    ent_octal.place(x=110, y=200)
+    ent_decimal.place(x=190, y=200)
+    ent_binario.place(x=270, y=200)
+    hex_value.place(x=30, y=225)
+    oct_value.place(x=110, y=225)
+    dec_value.place(x=190, y=225)
+    bin_value.place(x=270, y=225)
 
-    hexadecimal_lbl.place(x=30, y=200)
-    octal_lbl.place(x=110, y=200)
-    decimal_lbl.place(x=150, y=200)
-    binario_lbl.place(x=205, y=200)
-
-
+    # Bloqueamos los ent_
+    for ent_ in ent__list:
+        ent_.config(state="disabled")        
     canvas_principal2.pack()
 #******************Creacion de ventanas(FIN)************************
 
