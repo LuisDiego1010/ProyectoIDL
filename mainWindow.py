@@ -67,6 +67,11 @@ def openNewWindow_Conversion():
     canvas_principal2.pack()
     def convertir():
         hex = ent_hex1.get()
+        # Convertir el número hexadecimal a decimal
+        try:            
+            decimal = int(hex, 16)
+        except:
+            pass
         valido = False
         while not valido:
             if len(hex) == 3:
@@ -75,17 +80,42 @@ def openNewWindow_Conversion():
                     if char not in "0123456789abcdefABCDEF":
                         valido = False
                         break
+                if decimal < 0 or decimal > 2047:
+                    tk.messagebox.showerror(title="Error", message="El valor ingresado está fuera del rango permitido (000 - 7FF).")
+                    break
                 if valido:
                     hex_value.config(state="normal")
                     hex_value.delete(0, END)
                     hex_value.insert(0, hex)
                     hex_value.config(state="disabled")
+
+
+                    # Convertir el número decimal a octal y binario
+                    octal = oct(decimal)
+                    binario = bin(decimal)
+
+                    # Actualizar los campos de texto correspondientes
+                    oct_value.config(state="normal")
+                    oct_value.delete(0, END)
+                    oct_value.insert(0, str(octal)[2:])
+                    oct_value.config(state="disabled")
+
+                    dec_value.config(state="normal")
+                    dec_value.delete(0, END)
+                    dec_value.insert(0, str(decimal))
+                    dec_value.config(state="disabled")
+
+                    bin_value.config(state="normal")
+                    bin_value.delete(0, END)
+                    bin_value.insert(0, str(binario)[2:])
+                    bin_value.config(state="disabled")
                 else:
                     tk.messagebox.showerror(title="Error", message="El valor ingresado no es un número hexadecimal válido.")
                     break
             else:
-                tk.messagebox.showerror(title="Error", message="El valor ingresado no tiene 3 dígitos.")
+                tk.messagebox.showerror(title="Error", message="El valor ingresado no es un número hexadecimal válido.")
                 break
+
 
 
     convert_btn= tk.Button(canvas_principal2, text="Convertir",command= convertir).place(x=590,y=150)
