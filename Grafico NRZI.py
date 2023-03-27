@@ -11,7 +11,7 @@ class NRZ_I:
         misma.distancia = 50
 
     def dibuja(misma):
-        t.sety(misma.alto_logico)
+        t.sety(misma.bajo_logico)
         for i in misma.signal:
             if i == '0':
                 misma.zero()
