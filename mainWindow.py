@@ -1,5 +1,6 @@
 from tkinter import *
 import tkinter as tk
+from tkinter import messagebox
 from PIL import ImageTk, Image
 
 #******************Ventana Principal**********************
@@ -34,12 +35,8 @@ def openNewWindow_Conversion():
     lbl_hex1 = tk.Label (canvas_principal2,text="Introduce un número hexadecimal de 3 dígitos: ", font=("Adobe Gothic Std B",12),background="#27363B",foreground="white" ).place(x=30,y=150)
     ent_hex1= tk.Entry(canvas_principal2,font=("Adobe Gothic Std B",12),width=25)
     ent_hex1.place(x=355,y=151)
-    def get_value():
-        hex=ent_hex1.get()
-        print(hex)
-    convert_btn= tk.Button(canvas_principal2, text="Convertir",command= get_value).place(x=590,y=150)
-    #Tabla
-    #******************Creación de tabla para mostrar datos***********************
+
+        #******************Creación de tabla para mostrar datos***********************
     ent_hex = tk.Entry(canvas_principal2, width=12, justify="center")
     ent_hex.insert(0, "Hexadecimal")
     ent_octal = tk.Entry(canvas_principal2, width=12, justify="center")
@@ -68,6 +65,32 @@ def openNewWindow_Conversion():
     for ent_ in ent__list:
         ent_.config(state="disabled")        
     canvas_principal2.pack()
+    def convertir():
+        hex = ent_hex1.get()
+        valido = False
+        while not valido:
+            if len(hex) == 3:
+                valido = True
+                for char in hex:
+                    if char not in "0123456789abcdefABCDEF":
+                        valido = False
+                        break
+                if valido:
+                    hex_value.config(state="normal")
+                    hex_value.delete(0, END)
+                    hex_value.insert(0, hex)
+                    hex_value.config(state="disabled")
+                else:
+                    tk.messagebox.showerror(title="Error", message="El valor ingresado no es un número hexadecimal válido.")
+                    break
+            else:
+                tk.messagebox.showerror(title="Error", message="El valor ingresado no tiene 3 dígitos.")
+                break
+
+
+    convert_btn= tk.Button(canvas_principal2, text="Convertir",command= convertir).place(x=590,y=150)
+
+
 #******************Creacion de ventanas(FIN)************************
 
 btn_create_window_Hamming = tk.Button(mainwindow,
