@@ -1,7 +1,8 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import messagebox
-from PIL import ImageTk, Image
+import turtle
+
 
 #******************Ventana Principal**********************
 mainwindow = tk.Tk()
@@ -65,6 +66,7 @@ def openNewWindow_Conversion():
     for ent_ in ent__list:
         ent_.config(state="disabled")        
     canvas_principal2.pack()
+
     def convertir():
         hex = ent_hex1.get()
         # Convertir el número hexadecimal a decimal
@@ -109,18 +111,79 @@ def openNewWindow_Conversion():
                     bin_value.delete(0, END)
                     bin_value.insert(0, str(binario)[2:])
                     bin_value.config(state="disabled")
+
+                    print(binario)
                 else:
                     tk.messagebox.showerror(title="Error", message="El valor ingresado no es un número hexadecimal válido.")
                     break
             else:
                 tk.messagebox.showerror(title="Error", message="El valor ingresado no es un número hexadecimal válido.")
                 break
+        #***************Se define la logica del grafico NRZI******************
+        def dibuja_NRZI(signal, alto_logico, bajo_logico, distancia):
+            t.sety(bajo_logico)
+            for i in signal:
+                if i == '0':
+                    t.forward(distancia)
+                elif i == '1':
+                    posx, posy = t.pos()
+                    if bajo_logico - 1 < posy < bajo_logico + 1:
+                        t.sety(alto_logico)
+                    elif alto_logico - 1 < posy < alto_logico + 1:
+                        t.sety(bajo_logico)
+                    t.forward(distancia)
+                    print(posy)
 
+        #***************Dibuja los ejes en la ventana*************************
+        def dibuja_ejes(len_X):
+            def dibujalineas(distancia):
+                for i in range(distancia // 50):
+                    t.forward(50)
+                    t.dot(5)
+                t.backward(distancia)
 
+            t.hideturtle()
+            t.speed('fastest')
+            t.setx(-len_X // 2 + 100)
+            dibujalineas(len_X)
+            t.rt(90)
+            dibujalineas(100)
+            t.rt(180)
+            dibujalineas(100)
+            t.rt(90)
 
+        #*********Creacion de linea graficadora*************************************
+        def setTurtle(size, colour, speed, visibility):
+            t.pensize(size)
+            t.pencolor(colour)
+            t.speed(speed)
+            if not visibility:
+                t.hideturtle()
+                
+        #**Ingresa la señal binaia y llama al as funciones para dibujar el grafico
+        señal = str(binario)[2:]
+
+        raiz = tk.Tk()
+        raiz.title('Grafico NRZI')
+        raiz.geometry('1000x300')
+        cv = turtle.ScrolledCanvas(raiz, width=1000) 
+        cv.pack()
+
+        len_X, len_Y = 1000, 350
+        default_settings = (2, 'red', 'slowest', False)
+        invisiline = (1, 'black', 'fastest', False)
+
+        screen = turtle.TurtleScreen(cv)
+        screen.screensize(len_X, len_Y)
+        t = turtle.RawTurtle(screen)
+
+        dibuja_ejes(len_X)
+        setTurtle(*default_settings)
+        dibuja_NRZI(señal, 50, -50, 50)
+
+        raiz.mainloop()                
     convert_btn= tk.Button(canvas_principal2, text="Convertir",command= convertir).place(x=590,y=150)
-
-
+                
 #******************Creacion de ventanas(FIN)************************
 
 btn_create_window_Hamming = tk.Button(mainwindow,
