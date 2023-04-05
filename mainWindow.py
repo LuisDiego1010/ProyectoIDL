@@ -4,6 +4,7 @@ from tkinter import messagebox
 import turtle
 
 
+
 #******************Ventana Principal**********************
 mainwindow = tk.Tk()
 mainwindow.title('Menu principal: Codigo Hamming')
@@ -21,6 +22,8 @@ def openNewWindow_Hamming_Code():
     label2 = Label( canvas_principal1, image = bg1)
     label2.image = bg1
     label2.place(x = 0, y = 0)
+    print(binario_ext[2:]) #Valor binario extraído
+    bin_label = tk.Label( canvas_principal1, text= binario_ext[2:]).place(x = 30, y = 150)
     canvas_principal1.pack()
 
 def openNewWindow_Conversion():
@@ -36,6 +39,7 @@ def openNewWindow_Conversion():
     lbl_hex1 = tk.Label (canvas_principal2,text="Introduce un número hexadecimal de 3 dígitos: ", font=("Adobe Gothic Std B",12),background="#27363B",foreground="white" ).place(x=30,y=150)
     ent_hex1= tk.Entry(canvas_principal2,font=("Adobe Gothic Std B",12),width=25)
     ent_hex1.place(x=355,y=151)
+    
 
         #******************Creación de tabla para mostrar datos***********************
     ent_hex = tk.Entry(canvas_principal2, width=12, justify="center")
@@ -68,6 +72,7 @@ def openNewWindow_Conversion():
     canvas_principal2.pack()
 
     def convertir():
+        global binario_ext
         hex = ent_hex1.get()
         # Convertir el número hexadecimal a decimal
         try:            
@@ -94,7 +99,9 @@ def openNewWindow_Conversion():
 
                     # Convertir el número decimal a octal y binario
                     octal = oct(decimal)
-                    binario = bin(decimal)
+                    binario = bin(decimal) #Extraer este valor y almacenarlo en la ventana Hamming
+                    binario_ext = binario
+                   
 
                     # Actualizar los campos de texto correspondientes
                     oct_value.config(state="normal")
