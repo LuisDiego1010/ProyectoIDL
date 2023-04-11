@@ -32,13 +32,14 @@ def openNewWindow_Hamming_Code():
     label3.place(x = 0, y = 0)
     print(binario_ext[2:]) #Valor binario extraído
     text_label = tk.Label( canvas_principal1, text="El número binario es:", font=(t_font,subt_font_size), background="#2A5FB7").place(x = 350, y = 150)
-    bin_label = tk.Label( canvas_principal1, text= binario_ext[2:],font=(t_font,subt_font_size), background="#2A5FB7").place(x = 380, y = 190)
+    bin_label = tk.Label( canvas_principal1, text= binario_ext,font=(t_font,subt_font_size), background="#2A5FB7").place(x = 380, y = 190)
     text2_label = tk.Label( canvas_principal1, text="Escoge la paridad:", font=(t_font,subt_font_size), background="#2A5FB7").place(x = 360, y = 230)
     parity = BooleanVar()
     odd = Radiobutton(canvas_principal1,text="Odd parity", variable=parity, value=False , font=(t_font,subt_font_size),fg='#000000',highlightcolor=btn_color, background="#2A5FB7")
     odd.place(x=380,y=300)
     even = Radiobutton(canvas_principal1,text="Even parity", variable=parity, value=True , font=(t_font,subt_font_size),fg='#000000',highlightcolor=btn_color, background="#2A5FB7")
     even.place(x=380,y=270)
+    
 
     '''
 This function tries to invoke the Hamming encoding module, and after getting the response, 
@@ -47,11 +48,22 @@ In case of failure, it displays an alert to the user to handle different error c
 '''
     def encode():
         try:
-            int(binario_ext[2:],2)
-            encoded = Hammin_code.hamming_encode(binario_ext[2:],parity.get())
+            int(binario_ext,2)
+            encoded = Hammin_code.hamming_encode(binario_ext,parity.get())
             create_new_encription(encoded)
         except:
-            if binario_ext[2:] == "":
+            if binario_ext == "":
+                tk.messagebox.showwarning(title="Alert!", message="Por favor introduzca un número binario")
+            else:
+                tk.messagebox.showerror(title="Error!", message="Número binario inválido")
+
+    def encode_bitdif():
+        try:
+            int(valorFinalString,2)
+            encoded = Hammin_code.hamming_encode(valorFinalString,parity.get())
+            create_new_encription(encoded)
+        except:
+            if binario_ext == "":
                 tk.messagebox.showwarning(title="Alert!", message="Por favor introduzca un número binario")
             else:
                 tk.messagebox.showerror(title="Error!", message="Número binario inválido")
@@ -63,13 +75,13 @@ In case of failure, it displays an alert to the user to handle different error c
     '''
     def check():
         try:
-            int(binario_ext[2:],2)
-            checked = Hammin_code.check_hamming_encode(binario_ext[2:],parity.get())
+            int(binario_ext,2)
+            checked = Hammin_code.check_hamming_encode(binario_ext,parity.get())
             create_new_check(checked[0],checked[1],int(parity.get()))
         except:
-            if binario_ext[2:] == "":
+            if binario_ext == "":
                 tk.messagebox.showwarning(title="Alert!", message="Por favor introduzca un número binario")
-            elif len(binario_ext[2:]) == 1:
+            elif len(binario_ext) == 1:
                 tk.messagebox.showerror(title="Error!", message="El número binario deber ser de mayor logintud")
             else:
                 tk.messagebox.showerror(title="Error!", message="Número binario inválido")
@@ -86,6 +98,7 @@ In case of failure, it displays an alert to the user to handle different error c
 
         # find total number of rows and
         # columns in list
+        global valorFinalString
         total_rows = len(list)+1
         total_columns = len(list[-1])+1
 
@@ -169,6 +182,7 @@ In case of failure, it displays an alert to the user to handle different error c
                         
                         e.grid(row=i, column=j)
                         e.insert(END,list[-1][j-1])
+                        
                     
                     #(inner lists)
                     else:
@@ -177,6 +191,12 @@ In case of failure, it displays an alert to the user to handle different error c
                         
                         e.grid(row=i, column=j)
                         e.insert(END,list[i-1][j-1])
+                        #print(list[-1])
+                        valor_final_string = str(list[-1])
+                        valorFinalString = valor_final_string
+                        
+                        #print(valor_final_string)
+                        print(valorFinalString)
 
     '''
     This function alerts the user if errors are found in a coding and where.
@@ -308,11 +328,15 @@ In case of failure, it displays an alert to the user to handle different error c
                             e.insert(END,this_list[2][j-1])
     encode_btn = Button(canvas_principal1, text="Codificar", command=encode, font=(t_font, subt_font_size), fg='black', bg='lightblue', activebackground='lightblue', activeforeground='black')
     encode_btn.config(height=2, width=15, relief='raised', bd=2, highlightthickness=0)
-    encode_btn.place(x=250, y=350)
+    encode_btn.place(x=150, y=350)
 
     encode_btn = Button(canvas_principal1, text="Revisar", command=check, font=(t_font, subt_font_size), fg='black', bg='lightblue', activebackground='lightblue', activeforeground='black')
     encode_btn.config(height=2, width=15, relief='raised', bd=2, highlightthickness=0)
-    encode_btn.place(x=450, y=350)
+    encode_btn.place(x=350, y=350)
+
+    encode_btn3 = Button(canvas_principal1, text="Codificar con bit diferente", command=openNewWindow_Prueba, font=(t_font, subt_font_size), fg='black', bg='lightblue', activebackground='lightblue', activeforeground='black')
+    encode_btn3.config(height=2, width=20, relief='raised', bd=2, highlightthickness=0)
+    encode_btn3.place(x=550, y=350)
 
     canvas_principal1.pack()
 
@@ -390,7 +414,7 @@ def openNewWindow_Conversion():
                     # Convertir el número decimal a octal y binario
                     octal = oct(decimal)
                     binario = bin(decimal) #Extraer este valor y almacenarlo en la ventana Hamming
-                    binario_ext = binario
+                    binario_ext = binario[2:]
                    
 
                     # Actualizar los campos de texto correspondientes
@@ -480,6 +504,41 @@ def openNewWindow_Conversion():
 
         raiz.mainloop()                
     convert_btn= tk.Button(canvas_principal2, text="Convertir",command= convertir).place(x=590,y=150)
+
+def openNewWindow_Prueba():
+    global numeroBitCambiado
+    
+    newWindow = tk.Toplevel()
+    newWindow.title('Prueba')
+    newWindow.geometry("300x300")
+    label1 = tk.Label(newWindow, text="Valor conseguido anteriormente: " ,font=(t_font,subt_font_size), background="#2A5FB7")
+    label1.place(x = 10, y = 10)
+    label3 = tk.Label(newWindow, text=valorFinalString ,font=(t_font,subt_font_size), background="#2A5FB7")
+    label3.place(x = 10, y = 40)
+    label2 = tk.Label(newWindow, text="Escriba todo el número con el bit que desee cambiar ")
+    label2.place(x = 10, y = 100)
+    ent_valor_bit_cambiado= tk.Entry(newWindow,font=("Adobe Gothic Std B",12),width=25)
+    ent_valor_bit_cambiado.place(x=10,y=150)
+    
+    def guardar():
+        global binario_ext
+        bit_cambiado = ent_valor_bit_cambiado.get()
+        binario_ext = bit_cambiado
+
+    bit_regresar_btn = tk.Button(newWindow,
+             text ="Regresar a Ventana Hamming",
+             command = openNewWindow_Hamming_Code)
+    bit_regresar_btn.place(x = 10, y = 250)
+
+    bit_camb_btn = tk.Button(newWindow,
+             text ="Guardar",
+             command = guardar)
+    bit_camb_btn.place(x = 10, y = 200)
+
+    
+
+    
+
                 
 #******************Creacion de ventanas(FIN)************************
 
