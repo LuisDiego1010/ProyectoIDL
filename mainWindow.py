@@ -334,7 +334,7 @@ In case of failure, it displays an alert to the user to handle different error c
     encode_btn.config(height=2, width=15, relief='raised', bd=2, highlightthickness=0)
     encode_btn.place(x=350, y=350)
 
-    encode_btn3 = Button(canvas_principal1, text="Codificar con bit diferente", command=openNewWindow_Prueba, font=(t_font, subt_font_size), fg='black', bg='lightblue', activebackground='lightblue', activeforeground='black')
+    encode_btn3 = Button(canvas_principal1, text="Cambiar bit", command=openNewWindow_Prueba, font=(t_font, subt_font_size), fg='black', bg='lightblue', activebackground='lightblue', activeforeground='black')
     encode_btn3.config(height=2, width=20, relief='raised', bd=2, highlightthickness=0)
     encode_btn3.place(x=550, y=350)
 
